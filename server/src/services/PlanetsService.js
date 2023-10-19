@@ -1,4 +1,5 @@
 import { dbContext } from "../db/DbContext.js"
+import { BadRequest } from "../utils/Errors.js"
 
 
 
@@ -17,6 +18,9 @@ class PlanetsService {
 
   async getPlanetsByGalaxy(galaxyId) {
     const planets = await dbContext.Planets.find({ galaxyId: galaxyId })
+    if (!planets) {
+      throw new BadRequest('No planets in this galaxy discovered yet')
+    }
     return planets
   }
 }
